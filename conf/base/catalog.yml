@@ -2,3 +2,14 @@
 #
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://docs.kedro.org/en/stable/catalog-data/introduction/#data-catalog
+
+train_data:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/train.csv
+
+test_data:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/test.csv
+
+renamed_data:
+  type: MemoryDataset

@@ -1,0 +1,78 @@
+feature_engineering:
+  rename_columns:
+    datetime: datetime
+    season: season
+    holiday: holiday
+    workingday: workingday
+    weather: weather
+    temp: temperature
+    atemp: feeling_temperature
+    humidity: humidity
+    windspeed: wind_speed
+    casual: casual_users
+    registered: registered_users
+    count: bike_count
+
+  lag_params:
+    bike_count: [1,2,3,12,24,48,168]
+    temperature: [1,2,3]
+
+  rolling_params:
+    mean: [3,6]
+    std: [6]
+
+  drop_columns: ['datetime', 'casual_users', 'registered_users', 'holiday', 'workingday']
+
+
+training:
+  target_params:
+    target_column: bike_count
+    shift_periods: 1 
+    new_target_name: target
+
+  train_fraction: 0.8
+
+  model_type: catboost
+
+  model_params:
+    catboost:
+      subsample: 0.7
+      learning_rate: 0.03
+      l2_leaf_reg: 7
+      iterations: 800
+      depth: 6
+      colsample_bylevel: 1.0
+      loss_function: Quantile:alpha=0.7
+      eval_metric: MAPE
+      random_seed: 42
+      verbose: 0
+      allow_writing_files: False
+
+    lightgbm:
+      num_leaves: 128
+      learning_rate: 0.05
+      n_estimators: 800
+      subsample: 1.0
+      colsample_bytree: 0.8
+      random_state: 42
+      verbose: 0
+      allow_writing_files: False
+
+    xgboost:
+      subsample: 1.0
+      reg_lambda: 3
+      n_estimators: 1000
+      max_depth: 10
+      learning_rate: 0.03
+      gamma: 0.1
+      colsample_bytree: 0.8
+      objective: reg:pseudohubererror
+      n_jobs: -1
+      random_state: 42
+      verbose: 0
+      allow_writing_files: False
+    
+
+model_storage:
+  path: data/06_models
+  name: forecast_model
