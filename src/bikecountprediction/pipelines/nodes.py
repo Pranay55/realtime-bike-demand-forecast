@@ -7,8 +7,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 
 def rename_columns(df:pd.DataFrame,renaming_dict:Dict[str,str])->pd.DataFrame:
-    print("Renaming columns...")
-    print(df.rename(columns = renaming_dict).head())
+    # print("Renaming columns...")
+    # print(df.rename(columns = renaming_dict).head())
     return df.rename(columns = renaming_dict)
 
 def get_feature(df:pd.DataFrame, lag_params: Dict[str,List[int]], rolling_params: Dict[str,List[int]])->Tuple[pd.DataFrame, pd.Series]:
@@ -41,8 +41,8 @@ def get_feature(df:pd.DataFrame, lag_params: Dict[str,List[int]], rolling_params
     df['hour_weekend'] = df['hour'] * df['is_weekend']
     df['day_type'] = (df['holiday'] * 2 + df['workingday'])
 
-    print(df.columns)
-    print(timestamps)
+    # print(df.columns)
+    # print(timestamps)
 
     return df, timestamps
 
@@ -56,8 +56,8 @@ def drop_count(df:pd.DataFrame)->pd.DataFrame:
     return df.drop(columns=['bike_count'])
 
 def drop_unnecessary_columns(df:pd.DataFrame, drop_params:List[str])->pd.DataFrame:
-    print(df.drop(columns=drop_params).columns)
-    print(df.drop(columns=drop_params).head())
+    # print(df.drop(columns=drop_params).columns)
+    # print(df.drop(columns=drop_params).head())
     return df.drop(columns=drop_params)
 
 
@@ -68,8 +68,8 @@ def split_data(df: pd.DataFrame, params: Dict[str, Any]) -> Tuple[pd.DataFrame, 
     train_size = int(params["train_fraction"] * len(df))
     x_train, x_test = x[:train_size],x[train_size:]
     y_train, y_test = y[:train_size],y[train_size:]
-    print(f"Training data shape: {x_train.shape}, {y_train.shape}")
-    print(f"Testing data shape: {x_test.shape}, {y_test.shape}")
+    # print(f"Training data shape: {x_train.shape}, {y_train.shape}")
+    # print(f"Testing data shape: {x_test.shape}, {y_test.shape}")
     return x_train, x_test, y_train, y_test
 
 
@@ -95,7 +95,7 @@ def train_model(x_train:pd.DataFrame, y_train:pd.Series, params:Dict[str,Any])->
 
 def predict(model:Any, x_test:pd.DataFrame)->pd.DataFrame:
     y_pred = pd.DataFrame(model.predict(x_test), columns=['predicted_bike_count'])
-    print(f"shape: {x_test.shape, y_pred.shape}")
+    # print(f"shape: {x_test.shape, y_pred.shape}")
     return y_pred
 
 
@@ -111,7 +111,7 @@ def computeMetrics(y_true: Union[np.ndarray,list], y_pred: Union[np.ndarray,list
         "MAE": float(round(mae,2)),
         "MAPE": float(round(mape,2))        
     }
-    print(f"Evaluation Metrics: {metrics}")
+    # print(f"Evaluation Metrics: {metrics}")
     return metrics
 
 

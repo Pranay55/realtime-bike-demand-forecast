@@ -74,7 +74,17 @@ model_storage:
   name: forecast_model
 
 ui:
-  actual_data_path: data/01_raw/test.csv
+  actual_data_path: data/03_primary/inference_batch.csv
   predictions_data_path: data/07_model_output/predictions_with_timestamps.csv
-  update_interval_ms: 10000000000
+  update_interval_ms: 2000
   default_lookback_hours: 24
+
+pipeline_runner:
+  batch_size: 30
+  model_storage_path: data/06_models/forecast_model
+  predictions_output_path: data/07_model_output/predictions_with_timestamps.csv
+  first_timestamp: '2012-06-30 1:00:00'
+  last_timestamp: '2012-12-31 23:00:00'
+  time_increment: 1h
+  num_steps_inference: 2000
+  inference_interval_seconds: 2

@@ -14,3 +14,7 @@ inference_data:
 predictions_with_timestamps:
   type: pandas.CSVDataset
   filepath: data/07_model_output/predictions_with_timestamps.csv
+
+inference_batch:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/inference_batch.csv

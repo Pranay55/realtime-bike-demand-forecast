@@ -39,7 +39,7 @@ def load_inference_data()->Pipeline:
         [
              node(
                 func=add_count,
-                inputs="inference_data",
+                inputs="inference_batch",
                 outputs="raw_data_with_count"
             ),
             node(
