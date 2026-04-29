@@ -1,12 +1,12 @@
 from kedro.pipeline import Pipeline, node
-from .nodes import drop_unnecessary_columns, get_feature, rename_columns
+from .nodes import add_count, drop_unnecessary_columns, get_feature, load_data, rename_columns
 
 def create_feature_eng_pipeline()->Pipeline:
     return Pipeline(
         [
             node(
                 func = rename_columns,
-                inputs=["train_data","params:feature_engineering.rename_columns"],
+                inputs=["input_data","params:feature_engineering.rename_columns"],
                 outputs="renamed_data",
             ),
             node(
@@ -21,3 +21,38 @@ def create_feature_eng_pipeline()->Pipeline:
             )
         ]
     )
+
+
+def load_training_data()->Pipeline:
+    return Pipeline(
+        [
+            node(
+                func=load_data,
+                inputs="train_data",
+                outputs=["input_data", "last_timestamp"]
+            )
+        ]
+    )
+
+def load_inference_data()->Pipeline:
+    return Pipeline(
+        [
+             node(
+                func=add_count,
+                inputs="inference_data",
+                outputs="raw_data_with_count"
+            ),
+            node(
+                func=load_data,
+                inputs="raw_data_with_count",
+                outputs=["input_data", "last_timestamp"]
+            )
+        ]
+    )
+
+
+def feat_eng_pipeline_training()->Pipeline:
+    return load_training_data() + create_feature_eng_pipeline()
+
+def feat_eng_pipeline_inference()->Pipeline:
+    return load_inference_data() + create_feature_eng_pipeline()

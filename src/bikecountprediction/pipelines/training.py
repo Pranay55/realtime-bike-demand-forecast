@@ -1,5 +1,5 @@
 from kedro.pipeline import Pipeline, node
-from .nodes import make_target, predict, save_model, split_data, train_model, computeMetrics
+from .nodes import drop_count, make_target, predict, save_model, split_data, train_model, computeMetrics
 
 def create_training_pipeline()->Pipeline:
     return Pipeline(
@@ -10,8 +10,13 @@ def create_training_pipeline()->Pipeline:
                 outputs="data_with_target",
             ),
             node(
+                func=drop_count,
+                inputs="data_with_target",
+                outputs="data_wo_count"
+            ),
+            node(
                 func= split_data,
-                inputs=["data_with_target","params:training"],
+                inputs=["data_wo_count","params:training"],
                 outputs=["x_train","x_test","y_train","y_test"],
             ),
             node(

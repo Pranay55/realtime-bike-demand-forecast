@@ -7,9 +7,10 @@ train_data:
   type: pandas.CSVDataset
   filepath: data/01_raw/train.csv
 
-test_data:
+inference_data:
   type: pandas.CSVDataset
   filepath: data/01_raw/test.csv
 
-renamed_data:
-  type: MemoryDataset
+predictions_with_timestamps:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/predictions_with_timestamps.csv
